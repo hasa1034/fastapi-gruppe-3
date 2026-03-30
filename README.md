@@ -1,6 +1,7 @@
 # fastapi-gruppe-3
-python/fastapi/projekt/gruppe3
+Python / FastApi / Kiosk / Gruppe3
 
-Nachname	Vorname	Kürzel
-Haghighi	Sam	    hasa1034
-Arslan    Ali	    aral1011
+Sam Haghighi / hasa1034
+
+
+Ali Arslan   / aral1011
