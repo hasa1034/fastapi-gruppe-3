@@ -5,6 +5,7 @@
 .vscode
 build
 docs
+infos
 extras
 kiosk.egg-info
 htmlcov
