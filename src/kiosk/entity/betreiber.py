@@ -19,7 +19,7 @@ from sqlalchemy import ForeignKey, Identity
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from kiosk.entity.base import Base
-from patient.entity.geschlecht import Geschlecht
+from kiosk.entity.geschlecht import Geschlecht
 
 
 class Betreiber(Base):

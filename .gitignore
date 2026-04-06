@@ -29,3 +29,7 @@ dependency-check-report.html
 sonar-project.properties
 extras/compose/db/postgres/db_password.txt
 src/kiosk/config/resources/tls/private-key.pem
+src/kiosk/config/resources/tls/certificate.crt
+src/kiosk/config/resources/tls/key.pem
+src/kiosk/config/resources/postgresql/server.crt
+src/kiosk/config/resources/app.toml
