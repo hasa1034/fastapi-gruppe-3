@@ -1,3 +1,5 @@
+
+
 """Modul für den DB-Zugriff."""
 
 from kiosk.repository.pageable import MAX_PAGE_SIZE, Pageable

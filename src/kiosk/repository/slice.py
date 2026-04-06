@@ -1,5 +1,6 @@
 
 
+
 """Ausschnitt an gefundenen Daten."""
 
 from dataclasses import dataclass

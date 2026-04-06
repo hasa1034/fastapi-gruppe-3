@@ -1,5 +1,6 @@
 
 
+
 """Repository fuer persistente Kioskdaten."""
 
 # "list" ist eine mutable "Sequence"
