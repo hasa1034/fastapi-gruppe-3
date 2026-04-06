@@ -262,7 +262,7 @@ def username_exists_error_handler(
 ) -> Response:
     """Exception-Handling für UsernameExistsError.
 
-    :param err: Exception, falls der Username für den neuen Kiosks bereits existiert
+    :param err: Exception, falls der Username für den neuen Kiosk bereits existiert
     :return: Response mit Statuscode 422
     :rtype: Response
     """

@@ -35,7 +35,7 @@ __all__ = [
 # }
 # type Query {
 #     kiosk(kiosk_id: ID!): Kiosk!
-#     kiosks(input: Suchparameter): [Kiosk!]
+#     kioske(input: Suchparameter): [Kiosk!]
 # }
 # type Mutation {
 #     create(kiosk_input: KioskInput!): CreatePayload!
@@ -44,7 +44,7 @@ __all__ = [
 
 @strawberry.input
 class Suchparameter:
-    """Suchparameter für die Suche nach Kiosks."""
+    """Suchparameter für die Suche nach Kioske."""
 
     name: str | None = None
     """Name als Suchkriterium."""

@@ -57,7 +57,7 @@ __all__ = ["graphql_router"]
 # input Suchparameter {...}
 # type Query {
 #     kiosk(kiosk_id: ID!): Kiosk!
-#     kiosks(suchparameter: Suchparameter): list[Kiosk!]!
+#     kioske(suchparameter: Suchparameter): list[Kiosk!]!
 # }
 
 
@@ -78,7 +78,7 @@ class Query:
     def kiosk(self, kiosk_id: strawberry.ID, info: Info) -> KioskDTO | None:
         """Daten zu einem Kiosk lesen.
 
-        :param kiosk_id: ID des gesuchten Kiosks
+        :param kiosk_id: ID des gesuchten Kioske
         :return: Gesuchter Kiosk
         :rtype: Kiosk
         :raises NotFoundError: Falls kein Kiosk gefunden wurde, wird zu GraphQLError
@@ -101,13 +101,13 @@ class Query:
         return kiosk_dto
 
     @strawberry.field
-    def kiosks(
+    def kioske(
         self, suchparameter: Suchparameter, info: Info
     ) -> Sequence[KioskDTO]:
-        """Kiosks anhand von Suchparameter suchen.
+        """Kioske anhand von Suchparameter suchen.
 
         :param suchparameter: name, email usw.
-        :return: Die gefundenen Kiosks
+        :return: Die gefundenen Kioske
         :rtype: list[Kiosk]
         :raises NotFoundError: Falls kein Kiosk gefunden wurde, wird zu GraphQLError
         """
@@ -133,13 +133,13 @@ class Query:
 
         pageable: Final = Pageable.create(size=str(0))
         try:
-            kiosks_dto: Final = _service.find(
+            kioske_dto: Final = _service.find(
                 suchparameter=suchparameter_filtered, pageable=pageable
             )
         except NotFoundError:
             return []
-        logger.debug("{}", kiosks_dto)
-        return kiosks_dto.content
+        logger.debug("{}", kioske_dto)
+        return kioske_dto.content
 
 
 @strawberry.type
