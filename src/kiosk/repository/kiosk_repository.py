@@ -31,79 +31,243 @@ class KioskRepository:
         # Wir laden Betreiber (1:1) und Produkte (1:N) direkt mit (Eager Loading)
         statement: Final = (
             select(Kiosk)
-            .options(
-                joinedload(Kiosk.betreiber),
-                joinedload(Kiosk.produkte)
-            )
+            .options(joinedload(Kiosk.betreiber))
             .where(Kiosk.id == kiosk_id)
         )
-        return session.scalar(statement)
+        kiosk: Final = session.scalar(statement)
+        logger.debug("{}", kiosk)
+        return kiosk
+    
+    
 
     def find(self, suchparameter: Mapping[str, str], pageable: Pageable, session: Session) -> Slice[Kiosk]:
         """Suche Kioske mit Filtern (z.B. Name oder Email)."""
-        logger.debug("suchparameter={}", suchparameter)
+        log_str: Final = "{}"
+        logger.debug(log_str, suchparameter)
         
         if not suchparameter:
-            return self._find_all(pageable, session)
+            return self._find_all(pageable=pageable, session=session)
 
-        # Beispiel: Suche nach Name
-        for key, value in suchparameter.items():
-            if key == "name":
-                return self._find_by_name(value, pageable, session)
-            if key == "email":
-                kiosk = self._find_by_email(value, session)
-                return Slice(content=(kiosk,), total_elements=1) if kiosk else Slice(content=(), total_elements=0)
         
+        for key, value in suchparameter.items():
+            if key == "email":
+                kiosk: Kiosk | None = self._find_by_email(email=value, session==session)
+                logger.debug(log_str, kiosk)
+                return (
+                    Slice(content=(kiosk,), total_elements=1)
+                    if kiosk is not None
+                    else Slice(content=(), total_elements=0))
+            if key == "name":
+                kiosk: Slice[Kiosk] = self._find_by_name(teil=value, pageable=pageable, session=session)
+                logger.debug(log_str, kiosk)
+                return kioske
         return Slice(content=(), total_elements=0)
 
     def _find_all(self, pageable: Pageable, session: Session) -> Slice[Kiosk]:
-        offset = pageable.number * pageable.size
-        statement: Final = (
+        logger.debug("aufgerufen")
+        offset: int = pageable.number * pageable.size
+        statement: Final = ((
             select(Kiosk)
             .options(joinedload(Kiosk.betreiber))
             .limit(pageable.size)
             .offset(offset)
+        )   
+            if pageable.size != 0
+            else (select(Kiosk).options(joinedload(Kiosk.betreiber)))                   
         )
-        kioske = session.scalars(statement).all()
-        anzahl = session.scalar(select(func.count()).select_from(Kiosk)) or 0
-        return Slice(content=tuple(kioske), total_elements=anzahl)
+        kioske: Final = (session.scalars(statement)).all()
+        anzahl: Final = self._count_all_rows(session)
+        kiosk_slice: Final = Slice(content=tuple(kioske), total_elements=anzahl)
+        logger.debug("kiosk_slice={}", kiosk_slice)
+        return kiosk_slice
     
-    
+    def _count_all_rows(self, session: Session) -> int:
+        statement: Final = select(func.count()).select_from(Kiosk)
+        count: Final = session.execute(statement).scalar()
+        return count if count is not None else 0
+
+
     def _find_by_email(self, email: str, session: Session) -> Kiosk | None:
+        
+        logger.debug("email={}", email)
         statement: Final = (
             select(Kiosk)
             .options(joinedload(Kiosk.betreiber))
             .where(Kiosk.email == email)
         )
-        return session.scalar(statement)
-
-    
-    def _find_by_name(self, teil: str, pageable: Pageable, session: Session) -> Slice[Kiosk]:
-        offset = pageable.number * pageable.size
-        statement: Final = (
-            select(Kiosk)
-            .options(joinedload(Kiosk.betreiber))
-            .filter(Kiosk.name.ilike(f"%{teil}%"))
-            .limit(pageable.size)
-            .offset(offset)
-        )
-        kioske = session.scalars(statement).all()
-        anzahl = session.scalar(
-            select(func.count()).select_from(Kiosk).filter(Kiosk.name.ilike(f"%{teil}%"))
-        ) or 0
-        return Slice(content=tuple(kioske), total_elements=anzahl)
-    
-    
-
-    def create(self, kiosk: Kiosk, session: Session) -> Kiosk:
-        """Speichert einen neuen Kiosk und vergibt eine ID."""
-        logger.debug("Speichere Kiosk: {}", kiosk.name)
-        session.add(kiosk)
-        session.flush() # ID generieren lassen
+        kiosk: Final = session.scalar(statement)
+        logger.debug("{}", kiosk)
         return kiosk
 
+    
+    def _find_by_name(
+        self,
+        teil: str,
+        pageable: Pageable,
+        session: Session,
+    ) -> Slice[Kiosk]:
+        logger.debug("teil={}", teil)
+        offset = pageable.number * pageable.size
+        # https://docs.sqlalchemy.org/en/20/orm/session_basics.html#querying
+        statement: Final = (
+            (
+                select(Kiosk)
+                .options(joinedload(Kiosk.betreiber))
+                .filter(Kiosk.name.ilike(f"%{teil}%"))
+                .limit(pageable.size)
+                .offset(offset)
+            )
+            if pageable.size != 0
+            else (
+                select(Kiosk)
+                .options(joinedload(Kiosk.betreiber))
+                .filter(Kiosk.name.ilike(f"%{teil}%"))
+            )
+        )
+        kioske: Final = session.scalars(statement).all()
+        anzahl: Final = self._count_rows_nachname(teil, session)
+        kiosk_slice: Final = Slice(content=tuple(kioske), total_elements=anzahl)
+        logger.debug("{}", kiosk_slice)
+        return kiosk_slice
+
+    def _count_rows_nachname(self, teil: str, session: Session) -> int:
+        statement: Final = (
+            select(func.count())
+            .select_from(Kiosk)
+            .filter(Kiosk.name.ilike(f"%{teil}%"))
+        )
+        count: Final = session.execute(statement).scalar()
+        return count if count is not None else 0
+
+    def exists_email(self, email: str, session: Session) -> bool:
+        """Abfrage, ob es die Emailadresse bereits gibt.
+
+        :param email: Emailadresse
+        :param session: Session für SQLAlchemy
+        :return: True, falls es die Emailadresse bereits gibt, False sonst
+        :rtype: bool
+        """
+        logger.debug("email={}", email)
+
+        statement: Final = select(func.count()).where(Kiosk.email == email)
+        anzahl: Final = session.scalar(statement)
+        logger.debug("anzahl={}", anzahl)
+        return anzahl is not None and anzahl > 0
+
+    def exists_email_other_id(
+        self,
+        email: str,
+        kiosk_id: int,
+        session: Session,
+    ) -> bool:
+        """Abfrage, ob es die Emailadresse bei einer anderen Kiosk-ID bereits gibt.
+
+        :param email: Emailadresse
+        :param kiosk_id: eigene Kiosk-ID
+        :param session: Session für SQLAlchemy
+        :return: True, falls es die Emailadresse bereits gibt, False sonst
+        :rtype: bool
+        """
+        logger.debug("email={}", email)
+
+        statement: Final = select(Kiosk.id).where(Kiosk.email == email)
+        id_db: Final = session.scalar(statement)
+        logger.debug("id_db={}", id_db)
+        return id_db is not None and id_db != kiosk_id
+
+    def create(self, kiosk: Kiosk, session: Session) -> Kiosk:
+        """Speichere einen neuen Kiosk ab.
+
+        :param kiosk: Die Daten des neuen Kiosks ohne ID
+        :param session: Session für SQLAlchemy
+        :return: Der neu angelegte Kiosk mit generierter ID
+        :rtype: Kiosk
+        """
+        logger.debug(
+            "kiosk={}, kiosk.adresse={}, kiosk.rechnungen={}",
+            kiosk,
+            kiosk.adresse,
+            kiosk.rechnungen,
+        )
+        # https://docs.sqlalchemy.org/en/20/orm/session_basics.html#adding-new-or-existing-items
+        session.add(instance=kiosk)
+        # flush(), damit die ID aus der Sequence vor COMMIT fuer Logging verfuegbar ist
+        # https://docs.sqlalchemy.org/en/20/tutorial/orm_data_manipulation.html#flushing
+        session.flush(objects=[kiosk])
+        logger.debug("kiosk_id={}", kiosk.id)
+        return kiosk
+
+    def update(self, kiosk: Kiosk, session: Session) -> Kiosk | None:
+        """Aktualisiere einen Kiosk.
+
+        :param kiosk: Die neuen Kioskdaten
+        :param session: Session für SQLAlchemy
+        :return: Der aktualisierte Kiosk oder None, falls kein Kiosk mit der ID
+        existiert
+        :rtype: Kiosk | None
+        """
+        logger.debug("{}", kiosk)
+
+        if (
+            kiosk_db := self.find_by_id(kiosk_id=kiosk.id, session=session)
+        ) is None:
+            # Kioskdaten wurden i.a. zuvor in der Session aktualisiert
+            return None
+
+        # session.add(kiosk_db) nicht notwendig, da bereits in der Session zugegriffen
+        # CAVEAT: Die erhoehte Versionsnummer ist erst *nach* COMMIT sichtbar
+
+        logger.debug("{}", kiosk_db)
+        return kiosk_db
+
     def delete_by_id(self, kiosk_id: int, session: Session) -> None:
-        """Löscht einen Kiosk (und durch 'cascade' auch den Betreiber/Produkte)."""
-        if (kiosk := self.find_by_id(kiosk_id, session)) is not None:
-            session.delete(kiosk)
-            logger.debug("Kiosk {} gelöscht", kiosk_id)
+        """Lösche die Daten zu einem Kiosk.
+
+        :param kiosk_id: Die ID des zu löschenden Kiosks
+        :param session: Session für SQLAlchemy
+        """
+        logger.debug("kiosk_id={}", kiosk_id)
+
+        # delete(Kiosk).where(Kiosk.kiosk_id == kiosk_id) OHNE cascade
+        # "walrus operator" https://peps.python.org/pep-0572
+        if (kiosk := self.find_by_id(kiosk_id=kiosk_id, session=session)) is None:
+            return
+        session.delete(kiosk)
+        logger.debug("ok")
+
+    def find_nachnamen(self, teil: str, session: Session) -> Sequence[str]:
+        """Suche Nachnamen zu einem Teilstring.
+
+        :param teil: Teilstring zu den gesuchten Nachnamen
+        :param session: Session für SQLAlchemy
+        :return: Liste der gefundenen Nachnamen oder eine leere Liste
+        :rtype: Sequence[str]
+        """
+        logger.debug("teil={}", teil)
+
+        statement: Final = (
+            select(Kiosk.name)
+            .filter(Kiosk.name.ilike(f"%{teil}%"))
+            .distinct()
+        )
+        namen: Final = (session.scalars(statement)).all()
+
+        logger.debug("namen={}", namen)
+        return namen
+
+    def exists_username(self, username: str | None, session: Session) -> bool:
+        """Abfrage, ob es den Benutzernamen bereits gibt.
+
+        :param username: Benutzername
+        :param session: Session für SQLAlchemy
+        :return: True, falls es den Benutzernamen bereits gibt
+        :rtype: bool
+        """
+        logger.debug("username={}", username)
+        if username is None:
+            return False
+
+        statement: Final = select(Kiosk.username).filter_by(username=username)
+        username_db: Final = session.scalar(statement)
+        logger.debug("username_db={}", username_db)
+        return username_db is not None
