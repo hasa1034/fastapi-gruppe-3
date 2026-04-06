@@ -12,6 +12,7 @@ docs/build
 docs/diagramme/out
 extras/**/__pycache__
 htmlcov
+infos
 log
 site
 src/kiosk/**/__pycache__
