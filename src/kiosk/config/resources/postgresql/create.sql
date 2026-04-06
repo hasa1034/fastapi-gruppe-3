@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS kiosk (
                   -- https://www.postgresql.org/docs/current/datatype-boolean.html
     ist_geoeffnet BOOLEAN NOT NULL DEFAULT TRUE,
     homepage      TEXT,
+    username      TEXT NOT NULL,
                   -- https://www.postgresql.org/docs/current/datatype-datetime.html
     erzeugt       TIMESTAMP NOT NULL,
     aktualisiert  TIMESTAMP NOT NULL

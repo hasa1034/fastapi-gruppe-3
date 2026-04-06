@@ -100,6 +100,9 @@ class KioskInput:
     produkte: list[ProduktInput]
     """Produkte."""
 
+    username: str
+    """Benutzername."""
+
 
 @strawberry.type
 class CreatePayload:

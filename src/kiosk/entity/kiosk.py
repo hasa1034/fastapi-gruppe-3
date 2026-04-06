@@ -60,6 +60,9 @@ class Kiosk(Base):
     homepage: Mapped[str | None]
     """Die optionale URL der Homepage."""
 
+    username: Mapped[str | None]
+    """Der Benutzername für Login."""
+
     id: Mapped[int | None] = mapped_column(
         Identity(start=1000),
         primary_key=True,
@@ -148,6 +151,6 @@ class Kiosk(Base):
             f"Kiosk(id={self.id}, version={self.version}, "
             + f"name={self.name}, email={self.email}, "
             + f"ist_geoeffnet={self.ist_geoeffnet}, "
-            + f"homepage={self.homepage}, "
+            + f"homepage={self.homepage}, username={self.username}, "
             + f"erzeugt={self.erzeugt}, aktualisiert={self.aktualisiert})"
         )
