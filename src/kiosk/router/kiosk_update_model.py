@@ -13,7 +13,7 @@ __all__: list[str] = ["KioskUpdateModel"]
 class KioskUpdateModel(BaseModel):
     """Pydantic-Model zum Aktualisieren von Kioskdaten."""
 
-    # Validierung analog zum Patienten-Nachnamen, angepasst auf Kiosknamen
+    # Validierung analog zum Kiosk-namen, angepasst auf Kiosknamen
     name: Annotated[
         str,
         StringConstraints(
