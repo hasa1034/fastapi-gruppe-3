@@ -51,7 +51,7 @@ class KioskRepository:
         
         for key, value in suchparameter.items():
             if key == "email":
-                kiosk: Kiosk | None = self._find_by_email(email=value, session==session)
+                kiosk: Kiosk | None = self._find_by_email(email=value, session=session)
                 logger.debug(log_str, kiosk)
                 return (
                     Slice(content=(kiosk,), total_elements=1)
