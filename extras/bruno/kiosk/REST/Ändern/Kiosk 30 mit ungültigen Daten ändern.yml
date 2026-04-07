@@ -1,0 +1,62 @@
+info:
+  name: Kiosk 30 mit ungültigen Daten ändern
+  type: http
+  seq: 6
+
+http:
+  method: PUT
+  url: "{{restUrl}}/:id"
+  headers:
+    - name: If-Match
+      value: '"0"'
+  params:
+    - name: id
+      value: "30"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "name": "falscher_name_put",
+          "email": "falsche_email_put@",
+          "ist_geoeffnet": false,
+          "homepage": "https://?!"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        test('Fehlermeldungen im Response Body', () => {
+          const body = res.getBody();
+          // Die Felder, die wir als fehlerhaft erwarten:
+          const expectedErrors = ['name', 'email', 'homepage'];
+
+          // Validierung für FastAPI Struktur
+          if (body.detail && Array.isArray(body.detail)) {
+            const errorLocations = body.detail.map(elem => elem.loc[1]);
+            
+            // Prüfen, ob alle unsere fehlerhaften Felder in der Antwort auftauchen
+            expectedErrors.forEach(prop => {
+              expect(errorLocations).to.include(prop);
+            });
+          }
+        });
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: res.body.detail
+      operator: isArray
+    - expression: res.body.detail
+      operator: isNotEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

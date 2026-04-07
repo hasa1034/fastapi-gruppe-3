@@ -1,0 +1,52 @@
+info:
+  name: Neuer Kiosk mit bereits existierender E-Mail-Adresse
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{restUrl}}"
+  headers:
+    - name: ""
+      value: ""
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Kiosk-Duplikat",
+          "email": "alice@acme.de",
+          "ist_geoeffnet": true,
+          "homepage": "https://test.rest",
+          "username": "emailexists",
+          "betreiber": {
+              "vorname": "Max",
+              "nachname": "Mustermann",
+              "geschlecht": "M"
+          },
+          "produkte": [
+              {
+                  "name": "Kaffee",
+                  "preis": "2.50",
+                  "waehrung": "EUR"
+              }
+          ]
+      }
+  auth:
+    type: bearer
+    token: "{{TOKEN}}"
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.body.detail
+      operator: contains
+      value: Email
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

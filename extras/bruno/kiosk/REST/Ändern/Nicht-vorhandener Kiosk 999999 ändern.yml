@@ -1,0 +1,37 @@
+info:
+  name: Nicht-vorhandenen Kiosk 999999 ändern
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{restUrl}}/:id"
+  headers:
+    - name: If-Match
+      value: '"0"'
+  params:
+    - name: id
+      value: "999999"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Kioskput",
+          "email": "update@kiosk.de",
+          "ist_geoeffnet": false,
+          "homepage": "https://www.kiosk-neu.de"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "404"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

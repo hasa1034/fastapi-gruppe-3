@@ -1,0 +1,40 @@
+info:
+  name: Kiosk 30 mit bereits existierender E-Mail-Adresse ändern
+  type: http
+  seq: 7
+
+http:
+  method: PUT
+  url: "{{restUrl}}/:id"
+  headers:
+    - name: If-Match
+      value: '"1"'
+  params:
+    - name: id
+      value: "30"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Kiosk-Update",
+          "email": "admin@acme.com",
+          "ist_geoeffnet": true,
+          "homepage": "https://www.kiosk-shop.de"
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.body.detail
+      operator: contains
+      value: Email
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

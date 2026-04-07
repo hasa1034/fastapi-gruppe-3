@@ -1,0 +1,85 @@
+info:
+  name: Suche ID, Version, ... aller Kioske
+  type: graphql
+  seq: 3
+
+graphql:
+  method: POST
+  url: "{{graphqlUrl}}"
+  headers:
+    - name: ""
+      value: ""
+      disabled: true
+  body:
+    query: |-
+      {
+        kioske(suchparameter: {}) {
+          id
+          version
+          name
+          email
+          istGeoeffnet
+          homepage
+          username
+          betreiber {
+            vorname
+            nachname
+            geschlecht
+          }
+          produkte {
+            name
+            preis
+            waehrung
+          }
+        }
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        test('Body mit den Properties', () => {
+          const body = res.getBody();
+          expect(body.data.kioske).to.be.an('array');
+
+          body.data.kioske.forEach(kiosk => {
+            const { id, version, name, email, istGeoeffnet, betreiber, produkte } = kiosk;
+            
+            // Basisdaten prüfen
+            expect(Number(id)).to.be.gte(1000); // Da Identity bei 1000 startet
+            expect(version).to.be.gte(0);
+            expect(name).to.be.a('string').that.is.not.empty;
+            expect(email).to.be.a('string').that.is.not.empty;
+            expect(istGeoeffnet).to.be.a('boolean');
+
+            // Betreiber prüfen (1:1 Beziehung)
+            expect(betreiber).to.be.an('object');
+            expect(betreiber.nachname).to.be.a('string').that.is.not.empty;
+
+            // Produkte prüfen (1:N Beziehung - Liste)
+            expect(produkte).to.be.an('array');
+            if (produkte.length > 0) {
+              expect(produkte[0].name).to.be.a('string');
+              expect(produkte[0].waehrung).to.be.a('string');
+            }
+          });
+        });
+
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/json
+    - expression: res.body.data.kioske
+      operator: isArray
+    - expression: res.body.data.kioske
+      operator: isNotEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
