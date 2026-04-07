@@ -1,4 +1,4 @@
-id;vorname;nachname;geschlecht;patient_id
+id;vorname;nachname;geschlecht;kiosk_id
 1;max;mustermann;MAENNLICH;1
 20;moritz;Müller;MAENNLICH;20
 30;anna;Schmidt;WEIBLICH;30
