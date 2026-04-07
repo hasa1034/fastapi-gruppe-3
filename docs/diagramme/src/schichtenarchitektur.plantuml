@@ -1,0 +1,82 @@
+' Copyright (C) 2023 - present Juergen Zimmermann, Hochschule Karlsruhe
+'
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+' Preview durch <Alt>d
+
+@startuml Schichtenarchitektur
+
+package kiosk #DDDDDD {
+    package rest #FFFFFF {
+        [@router.get()\nget_by_id()\n\n@router.get()\nget()\n\n@router.get()\nget_namen()] as KioskGetController
+        [@router.post()\npost()\n\n@router.put()\nput()\n\n@router.delete()\ndelete_by_id()] as KioskWriteController
+        [@router.get()\nliveness()\n\n@router.get()\nreadiness()] as HealthController
+
+        [KioskGetController] -right[hidden]-> [KioskWriteController]
+    }
+
+    package service #FFFFFF {
+        [find_by_id()\nfind()\nfind_namen()] as KioskReadService
+        [create()\nupdate()\ndelete()] as KioskWriteService
+    }
+
+    [KioskGetController] --> [KioskReadService]
+    [KioskWriteController] --> [KioskWriteService]
+
+    package repository #FFFFFF {
+        [find_by_id()\nfind()\nexists_email()\nfind_namen()\ncreate()\nupdate()\ndelete_by_id()\ncheck_db_connection()] as KioskRepository
+    }
+
+    [KioskReadService] --> [KioskRepository]
+    [KioskWriteService] --> [KioskRepository]
+    [HealthController] --> [KioskRepository]
+
+    package entity #FFFFFF {
+        [Kiosk]
+        [Betreiber]
+        [Produkt]
+
+        [Kiosk] -right[hidden]-> [Betreiber]
+        [Betreiber] -down[hidden]-> [Produkt]
+    }
+
+    [KioskGetController] ..> [Kiosk]
+    [KioskWriteController] ..> [Kiosk]
+    [KioskReadService] .left.> [Kiosk]
+    [KioskWriteService] ..> [Kiosk]
+    [KioskRepository] ..> [Kiosk]
+}
+
+RESTClient ~~> [KioskGetController]
+RESTClient ~~> [KioskWriteController]
+RESTClient ~~> [HealthController]
+
+cloud {
+    [SQLAlchemy\n(OR-Mapping)] as SQLAlchemy
+}
+
+[KioskRepository] ~down~> [SQLAlchemy]
+entity ~~> [SQLAlchemy]
+
+database "DB kiosk" as db {
+    [Tabelle kiosk]
+    [Tabelle betreiber]
+    [Tabelle produkt]
+}
+
+[SQLAlchemy] ~down~> db
+
+footer (c) Sam Haghighi
+
+@enduml
