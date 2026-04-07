@@ -1,0 +1,108 @@
+# Copyright (C) 2026 - present Juergen Zimmermann, Hochschule Karlsruhe
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# Mit z.B. "Bun" extrahieren:
+#   $env:NODE_TLS_REJECT_UNAUTHORIZED='0'
+#   bunx get-graphql-schema https://localhost:8000/graphql > schema.graphql
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"Suche nach Kioskdaten"
+type Query {
+  "Suche Kioskdaten anhand der ID"
+  kiosk(kioskId: ID!): Kiosk
+
+  "Suche Kioskdaten anhand des Namens oder der Emailadresse"
+  kioske(suchparameter: Suchparameter): [Kiosk!]!
+}
+
+type Mutation {
+  "Einen neuen Kioskdatensatz anlegen"
+  create(kioskInput: KioskInput!): CreatePayload!
+
+  "Token zu Benutzername und Passwort anfordern"
+  login(username: String!, password: String!): LoginResult!
+}
+
+# https://spec.graphql.org/draft/#sec-Types
+# https://www.graphql-scalars.dev/docs/scalars/email-address
+# https://www.graphql-scalars.dev/docs/scalars/local-date
+# https://www.graphql-scalars.dev/docs/scalars/currency
+# enum als String, damit toSting() vom Enum-Wert aufgerufen wird
+"Eigenschaften eines Kiosk-Datensatzes mit untergeordneten Eigenschaften"
+type Kiosk {
+  id: Int!
+  version: Int!
+  name: String!
+  email: String!
+  istgeoeffnet: Boolean!
+  homepage: String
+  betreiber: Betreiber!
+  username: String
+}
+
+type Betreiber {
+  vorname: String!
+  nachname: String!
+  geschlecht: Geschlecht
+}
+
+# https://spec.graphql.org/draft/#sec-Input-Objects
+"Suchparameter für die Query 'kioske'"
+input Suchparameter {
+  name: String = null
+  email: String = null
+}
+
+input KioskInput {
+  name: String!
+  email: String!
+  istgeoeffnet: Boolean!
+  homepage: String
+  betreiber: BetreiberInput!
+  produkte: [ProduktInput!]!
+  username: String!
+}
+
+enum Geschlecht {
+  MAENNLICH
+  WEIBLICH
+  DIVERS
+}
+
+input BetreiberInput {
+  vorname: String!
+  nachname: String!
+  geschlecht: Geschlecht
+}
+
+input ProduktInput {
+  name: String!
+  preis: Decimal!
+  waehrung: String!
+}
+
+type CreatePayload {
+  id: Int!
+}
+
+type LoginResult {
+  token: String!
+  expiresIn: String!
+  roles: [String!]!
+}
