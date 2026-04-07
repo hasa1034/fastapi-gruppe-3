@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-"""Unit-Tests für find() von PatientService."""
+"""Unit-Tests für find() von KioskService."""
 
 from typing import TYPE_CHECKING
 
@@ -145,7 +145,7 @@ def test_find_by_email(kiosk_service, session_mock) -> None:
     betreiber_mock.kiosk = kiosk_mock
     suchparameter = {"email": email}
     pageable = Pageable(size=5, number=0)
-    # session.scalar(select(Patient)...)
+    # session.scalar(select(Kiosk)...)
     session_mock.scalar.return_value = kiosk_mock
 
     # Act

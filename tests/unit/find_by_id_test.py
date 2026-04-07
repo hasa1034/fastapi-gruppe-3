@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-"""Unit-Tests für find_by_id() von PatientService."""
+"""Unit-Tests für find_by_id() von KioskService."""
 
 from dataclasses import asdict
 from datetime import date
