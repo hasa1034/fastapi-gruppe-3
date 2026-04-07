@@ -116,8 +116,7 @@ class UserService:
             payload={
                 "username": user.username,
                 "email": user.email,
-                "lastName": user.nachname,
-                "firstName": user.vorname,
+                "name": user.name,
                 "credentials": [{"value": user.password, "type": "password"}],
                 "enabled": True,
             },
@@ -126,7 +125,7 @@ class UserService:
         logger.debug("user_id={}", user_id)
 
         self.keycloak_admin.assign_client_role(
-            user_id=user_id, client_id=self.client_uuid, roles=[self.rolle_patient]
+            user_id=user_id, client_id=self.client_uuid, roles=[self.rolle_kiosk]
         )
         return user_id
 
@@ -172,8 +171,7 @@ class UserService:
         user: Final = User(
             username=kc_user["username"],
             email=kc_user["email"],
-            nachname=kc_user["lastName"],
-            vorname=kc_user["firstName"],
+            name=kc_user["name"],
             roles=roles,
         )
         logger.debug("user={}", user)

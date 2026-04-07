@@ -15,10 +15,10 @@ class ProduktModel(BaseModel):
 
     name: str
     """Der Name des Produkts."""
-    
+
     preis: Decimal
     """Der Preis."""
-    
+
     waehrung: Annotated[str, StringConstraints(pattern=r"^[A-Z]{3}$")]
     """Die Währung (3 Großbuchstaben, z.B. EUR)."""
 
@@ -40,10 +40,7 @@ class ProduktModel(BaseModel):
         :rtype: Produkt
         """
         # Model von Pydantic in ein Dictionary konvertieren
-        produkt_dict: dict[stry, Any] = self.model_dump()
-        
-        # Felder, die in der Datenbank automatisch gesetzt werden oder 
-        # erst später verknüpft werden, auf None setzen
+        produkt_dict = self.model_dump()
         produkt_dict["id"] = None
         produkt_dict["kiosk_id"] = None
         produkt_dict["kiosk"] = None

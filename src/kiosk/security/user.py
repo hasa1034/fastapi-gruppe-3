@@ -17,7 +17,7 @@
 
 from dataclasses import dataclass
 
-from patient.security.role import Role
+from kiosk.security.role import Role
 
 
 @dataclass()
@@ -30,11 +30,8 @@ class User:
     email: str
     """Emailadresse."""
 
-    nachname: str
-    """Nachname."""
-
-    vorname: str
-    """Vorname."""
+    name: str
+    """Name."""
 
     roles: list[Role]
     """Rollen als Liste von Enums."""

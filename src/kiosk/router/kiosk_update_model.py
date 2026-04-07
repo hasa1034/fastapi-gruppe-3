@@ -51,9 +51,7 @@ class KioskUpdateModel(BaseModel):
         :rtype: dict[str, Any]
         """
         # Model von Pydantic in ein Dictionary konvertieren
-        kiosk_dict = dict[str, Any] = self.model_dump()
-        
-        # Felder, die nicht Teil des Updates sind oder später gesetzt werden, auf None/Standard setzen
+        kiosk_dict = self.model_dump()
         kiosk_dict["id"] = None
         kiosk_dict["betreiber"] = None
         kiosk_dict["produkte"] = []
@@ -63,8 +61,8 @@ class KioskUpdateModel(BaseModel):
         kiosk_dict["aktualisiert"] = None
 
         # HttpUrl ist ungeeignet fuer SQLAlchemy
-        
-        kiosk_dict["homepage"] = str(kiosk_dict["homepage"])    
+
+        kiosk_dict["homepage"] = str(kiosk_dict["homepage"])
         return kiosk_dict
 
     def to_kiosk(self) -> Kiosk:

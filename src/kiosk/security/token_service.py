@@ -108,15 +108,13 @@ class TokenService:
         logger.debug("token_decoded={}", token_decoded)
         username: Final[str] = token_decoded["preferred_username"]
         email: Final[str] = token_decoded["email"]
-        nachname: Final[str] = token_decoded["family_name"]
-        vorname: Final[str] = token_decoded["given_name"]
+        name: Final[str] = token_decoded["name"]
         roles = self.get_roles_from_token(token_decoded)
 
         user = User(
             username=username,
             email=email,
-            nachname=nachname,
-            vorname=vorname,
+            name=name,
             roles=roles,
         )
         logger.debug("user={}", user)

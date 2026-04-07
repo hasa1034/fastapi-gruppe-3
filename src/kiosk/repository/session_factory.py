@@ -37,4 +37,3 @@ Session = sessionmaker(bind=engine, autoflush=False)
 """Factory für Sessions, um generierte SQL-Anweisungen in Transaktionen abzusetzen."""
 
 logger.info("Session-Factory fuer SQLAlchemy erzeugt")
-

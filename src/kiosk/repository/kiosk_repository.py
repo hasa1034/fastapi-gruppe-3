@@ -36,18 +36,20 @@ class KioskRepository:
         kiosk: Final = session.scalar(statement)
         logger.debug("{}", kiosk)
         return kiosk
-    
-    
 
-    def find(self, suchparameter: Mapping[str, str], pageable: Pageable, session: Session) -> Slice[Kiosk]:
+    def find(
+        self,
+        suchparameter: Mapping[str, str],
+        pageable: Pageable,
+        session: Session,
+    ) -> Slice[Kiosk]:
         """Suche Kioske mit Filtern (z.B. Name oder Email)."""
         log_str: Final = "{}"
         logger.debug(log_str, suchparameter)
-        
+
         if not suchparameter:
             return self._find_all(pageable=pageable, session=session)
 
-        
         for key, value in suchparameter.items():
             if key == "email":
                 kiosk: Kiosk | None = self._find_by_email(email=value, session=session)
@@ -55,9 +57,12 @@ class KioskRepository:
                 return (
                     Slice(content=(kiosk,), total_elements=1)
                     if kiosk is not None
-                    else Slice(content=(), total_elements=0))
+                    else Slice(content=(), total_elements=0)
+                )
             if key == "name":
-                kiosken: Slice[Kiosk] = self._find_by_name(teil=value, pageable=pageable, session=session)
+                kiosken: Slice[Kiosk] = self._find_by_name(
+                    teil=value, pageable=pageable, session=session
+                )
                 logger.debug(log_str, kiosken)
                 return kiosken
         return Slice(content=(), total_elements=0)
@@ -70,24 +75,23 @@ class KioskRepository:
             .options(joinedload(Kiosk.betreiber))
             .limit(pageable.size)
             .offset(offset)
-        )   
+        )
             if pageable.size != 0
-            else (select(Kiosk).options(joinedload(Kiosk.betreiber)))                   
+            else (select(Kiosk).options(joinedload(Kiosk.betreiber)))
         )
         kiosken: Final = (session.scalars(statement)).all()
         anzahl: Final = self._count_all_rows(session)
         kiosk_slice: Final = Slice(content=tuple(kiosken), total_elements=anzahl)
         logger.debug("kiosk_slice={}", kiosk_slice)
         return kiosk_slice
-    
+
     def _count_all_rows(self, session: Session) -> int:
         statement: Final = select(func.count()).select_from(Kiosk)
         count: Final = session.execute(statement).scalar()
         return count if count is not None else 0
 
-
     def _find_by_email(self, email: str, session: Session) -> Kiosk | None:
-        
+
         logger.debug("email={}", email)
         statement: Final = (
             select(Kiosk)
@@ -98,7 +102,6 @@ class KioskRepository:
         logger.debug("{}", kiosk)
         return kiosk
 
-    
     def _find_by_name(
         self,
         teil: str,
@@ -124,7 +127,7 @@ class KioskRepository:
             )
         )
         kioske: Final = session.scalars(statement).all()
-        anzahl: Final = self._count_rows_nachname(teil, session)
+        anzahl: Final = self._count_rows_name(teil, session)
         kiosk_slice: Final = Slice(content=tuple(kioske), total_elements=anzahl)
         logger.debug("{}", kiosk_slice)
         return kiosk_slice
@@ -270,4 +273,3 @@ class KioskRepository:
         username_db: Final = session.scalar(statement)
         logger.debug("username_db={}", username_db)
         return username_db is not None
-
