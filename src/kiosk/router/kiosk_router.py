@@ -164,9 +164,4 @@ def _kiosk_to_dict(kiosk: KioskDTO) -> dict[str, Any]:
     # https://docs.python.org/3/library/dataclasses.html
     kiosk_dict: Final = asdict(obj=kiosk)
     kiosk_dict.pop("version")
-    # Zeitstempel ISO-konform formatieren (analog zum geburtsdatum beim Patienten)
-    if kiosk.erzeugt:
-        kiosk_dict.update({"erzeugt": kiosk.erzeugt.isoformat()})
-    if kiosk.aktualisiert:
-        kiosk_dict.update({"aktualisiert": kiosk.aktualisiert.isoformat()})
     return kiosk_dict

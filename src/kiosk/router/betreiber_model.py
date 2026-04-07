@@ -29,10 +29,10 @@ class BetreiberModel(BaseModel):
 
     vorname: str = Field(..., min_length=2)
     """Der Vorname."""
-    
+
     nachname: str = Field(..., min_length=2)
     """Der Nachname."""
-    
+
     geschlecht: Optional[Geschlecht] = None
     """Das Geschlecht als Enum."""
 
@@ -55,8 +55,8 @@ class BetreiberModel(BaseModel):
         """
         # Model von Pydantic in ein Dictionary konvertieren
         betreiber_dict = self.model_dump()
-        
-        # Felder, die in der Datenbank automatisch gesetzt werden oder 
+
+        # Felder, die in der Datenbank automatisch gesetzt werden oder
         # erst später verknüpft werden, auf None setzen
         betreiber_dict["id"] = None
         betreiber_dict["kiosk_id"] = None

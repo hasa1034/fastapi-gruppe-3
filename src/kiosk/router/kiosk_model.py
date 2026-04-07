@@ -12,6 +12,7 @@ from kiosk.router.kiosk_update_model import KioskUpdateModel
 
 __all__: list[str] = ["KioskModel"]
 
+
 class KioskModel(KioskUpdateModel):
     """Vollständiges Pydantic-Model für die API."""
 
@@ -27,23 +28,23 @@ class KioskModel(KioskUpdateModel):
     def to_kiosk(self) -> Kiosk:
         """Konvertierung in ein Kiosk-Objekt für SQLAlchemy (Entity)."""
         logger.debug("self={}", self)
-        
+
         # 1. Einfache Daten aus dem UpdateModel holen
         kiosk_dict = self.to_dict()
-        
+
         # 2. Username hinzufügen (der oft nicht Teil des UpdateModels ist)
         kiosk_dict["username"] = self.username
-        
+
         # 3. Kiosk-Entity initialisieren
         # Da id, version, erzeugt etc. von DB kommen, setzen wir sie auf None
         kiosk_dict["id"] = None
         kiosk_dict["version"] = 0
-        
+
         kiosk: Final = Kiosk(**kiosk_dict)
 
         # 4. Betreiber konvertieren und verknüpfen
         kiosk.betreiber = self.betreiber.to_betreiber()
-        
+
         # 5. Produkte konvertieren und verknüpfen
         kiosk.produkte = [
             p.to_produkt() for p in self.produkte

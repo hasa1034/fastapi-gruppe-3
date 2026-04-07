@@ -16,6 +16,7 @@ from common_test import ctx, login, rest_url
 from httpx import get
 from pytest import mark
 
+
 @mark.rest
 @mark.get_request
 @mark.parametrize("email", ["admin@acme.com", "info@kiosk.de"])
@@ -40,6 +41,7 @@ def test_get_by_email(email: str) -> None:
     assert kiosk.get("email") == email
     assert kiosk.get("id") is not None
 
+
 @mark.rest
 @mark.get_request
 @mark.parametrize("email", ["nicht@vorhanden.com", "falscher@kiosk.de"])
@@ -55,6 +57,7 @@ def test_get_by_email_not_found(email: str) -> None:
 
     # assert
     assert response.status_code == HTTPStatus.NOT_FOUND
+
 
 @mark.rest
 @mark.get_request
@@ -80,6 +83,7 @@ def test_get_by_name(teil: str) -> None:
         assert teil.lower() in kiosk_name.lower()
         assert k.get("id") is not None
 
+
 @mark.rest
 @mark.get_request
 @mark.parametrize("name", ["UnbekannterKiosk", "GibtsNicht"])
@@ -95,6 +99,7 @@ def test_get_by_name_not_found(name: str) -> None:
 
     # assert
     assert response.status_code == HTTPStatus.NOT_FOUND
+
 
 @mark.rest
 @mark.get_request
@@ -120,6 +125,7 @@ def test_get_kiosknamen(teil: str) -> None:
     assert len(kiosknamen) > 0
     for name in kiosknamen:
         assert teil.lower() in name.lower()
+
 
 @mark.rest
 @mark.get_request

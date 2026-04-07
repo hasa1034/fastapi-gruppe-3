@@ -58,9 +58,9 @@ def test_put_invalid() -> None:
     # arrange
     kiosk_id: Final = 1000
     geaenderter_kiosk_invalid: Final = {
-        "name": "falscher_name_put", # Regex-Fehler (Kleinbuchstabe)
+        "name": "falscher_name_put",  # Regex-Fehler (Kleinbuchstabe)
         "email": "falsche_email_put@",
-        "ist_geoeffnet": "vielleicht", # Validierungsfehler (kein bool)
+        "ist_geoeffnet": "vielleicht",  # Validierungsfehler (kein bool)
         "homepage": "https://?!",
     }
     token: Final = login()

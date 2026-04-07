@@ -64,15 +64,15 @@ def test_post() -> None:
 def test_post_invalid() -> None:
     # arrange
     neuer_kiosk_invalid: Final = {
-        "name": "falscher_name", # Kleinbuchstabe am Anfang verletzt Regex
+        "name": "falscher_name",  # Kleinbuchstabe am Anfang verletzt Regex
         "email": "falsche_email@",
         "ist_geoeffnet": "kein_boolean",
         "homepage": "https://?!",
         "username": "testrestinvalid",
         "betreiber": {
-            "vorname": "", # Validierungsfehler: darf nicht leer sein
+            "vorname": "",  # Validierungsfehler: darf nicht leer sein
             "nachname": "M",
-            "geschlecht": "X" # Ungültiges Geschlecht
+            "geschlecht": "X"  # Ungültiges Geschlecht
         }
     }
     headers: dict[str, str] = {"Content-Type": "application/json"}
@@ -130,7 +130,7 @@ def test_post_email_exists() -> None:
 @mark.post_request
 def test_post_invalid_json() -> None:
     # arrange
-    json_invalid: Final = '{"name" "Kiosk"}' # Fehlender Doppelpunkt
+    json_invalid: Final = '{"name" "Kiosk"}'  # Fehlender Doppelpunkt
     headers: dict[str, str] = {"Content-Type": "application/json"}
 
     # act

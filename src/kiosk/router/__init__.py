@@ -35,7 +35,7 @@ __all__: Sequence[str] = [
     "get_namen",
     "health_router",
     "liveness",
-    "_router",
+    "kiosk_router",
     "kiosk_write_router",
     "post",
     "put",
