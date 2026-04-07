@@ -55,4 +55,3 @@ def populate_per_session() -> None:
     print("DB ist neu geladen")
     keycloak_populate()
     print("Keycloak ist neu geladen")
-

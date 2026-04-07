@@ -116,7 +116,8 @@ class UserService:
             payload={
                 "username": user.username,
                 "email": user.email,
-                "name": user.name,
+                "firstName": user.vorname,
+                "lastName": user.nachname,
                 "credentials": [{"value": user.password, "type": "password"}],
                 "enabled": True,
             },

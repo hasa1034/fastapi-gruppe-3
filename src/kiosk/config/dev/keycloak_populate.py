@@ -84,12 +84,11 @@ class KeycloakPopulateService:
                     continue
 
                 email = row[3]
-                nachname = row[2]
+                name = row[2]
                 user = User(
                     username=username,
                     email=email,
-                    nachname=nachname,
-                    vorname=nachname,
+                    name=name,
                     roles=[Role.KIOSK],
                     password="p",  # noqa: S106 # NOSONAR
                 )

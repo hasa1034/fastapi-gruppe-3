@@ -41,7 +41,7 @@ class GetUser(HttpUser):
     # https://docs.locust.io/en/stable/api.html#locust.User.wait_time
     # https://docs.locust.io/en/stable/api.html#locust.wait_time.constant_throughput
     # 50 "Task Iterations" pro Sekunde
-    wait_time: Callable[..., int] = constant_throughput(0.1)
+    wait_time = constant_throughput(0.1)
     MIN_USERS: Final = 500
     MAX_USERS: Final = 500
 
