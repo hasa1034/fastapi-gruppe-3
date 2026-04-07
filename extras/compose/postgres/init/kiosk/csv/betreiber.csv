@@ -1,0 +1,8 @@
+id;vorname;nachname;geschlecht;patient_id
+1;max;mustermann;MAENNLICH;1
+20;moritz;Müller;MAENNLICH;20
+30;anna;Schmidt;WEIBLICH;30
+40;benjamin;Wagner;MAENNLICH;40
+50;carla;Becker;WEIBLICH;50
+60;david;Schneider;MAENNLICH;60
+70;elena;Schulze;WEIBLICH;70

@@ -1,0 +1,11 @@
+id;name;betrag;waehrung;patient_id
+1;Zigaretten;1;EUR;1
+20;Kaugummi;20;EUR;20
+30;Schokolade;30;USD;30
+31;Eiscreme;31;USD;30
+40;Getränk;40;CHF;40
+41;Snack;41;CHF;40
+42;Medikament;42;CHF;40
+50;Wasser;50;GBP;50
+60;Brot;60;GBP;60
+61;Milch;61;GBP;60

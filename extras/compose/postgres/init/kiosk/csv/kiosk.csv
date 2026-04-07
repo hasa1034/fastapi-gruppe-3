@@ -1,0 +1,8 @@
+id;version;name;email;ist_geoeffnet;homepage;username;erzeugt;aktualisiert
+1;0;Admin;admin@acme.com;true;https://www.acme.com;admin;2025-01-01 00:00:00;2025-01-01 00:00:00
+20;0;Alice;alice@acme.de;true;https://www.acme.de;alice;2025-01-02 00:00:00;2025-01-02 00:00:00
+30;0;Alice;alice@acme.edu;true;https://www.acme.edu;alice30;2025-01-03 00:00:00;2025-01-03 00:00:00
+40;0;Alice;alice@acme.ch;true;https://www.acme.ch;alice40;2025-01-04 00:00:00;2025-01-04 00:00:00
+50;0;Diana;diana@acme.uk;true;https://www.acme.uk;diana;2025-01-05 00:00:00;2025-01-05 00:00:00
+60;0;Eve;eve@acme.jp;true;https://www.acme.jp;eve;2025-01-06 00:00:00;2025-01-06 00:00:00
+70;0;Frank;frank@acme.cn;true;https://www.acme.cn;frank;2025-01-07 00:00:00;2025-01-07 00:00:00
