@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """Pydantic-Model für die Betreiber."""
+
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, StringConstraints
