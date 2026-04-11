@@ -54,4 +54,7 @@ class Betreiber(Base):
     # __repr__ fuer Entwickler/innen, __str__ fuer User
     def __repr__(self) -> str:
         """Ausgabe eines Betreibers als String ohne die Kioskdaten."""
-        return f"Betreiber(id={self.id}, vorname={self.vorname}, nachname={self.nachname}, geschlecht={self.geschlecht})"
+        return (
+            f"Betreiber(id={self.id}, vorname={self.vorname}, "
+            f"nachname={self.nachname}, geschlecht={self.geschlecht})"
+        )

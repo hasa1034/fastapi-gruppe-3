@@ -24,8 +24,8 @@ from openpyxl import Workbook  # pyright: ignore[reportMissingModuleSource]
 
 from kiosk.config import excel_enabled
 from kiosk.repository import (
-    Pageable,
     KioskRepository,
+    Pageable,
     Session,
     Slice,
 )

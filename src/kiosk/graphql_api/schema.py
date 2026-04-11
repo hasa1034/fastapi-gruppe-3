@@ -30,18 +30,18 @@ from strawberry.types import Info
 from kiosk.config.graphql import graphql_ide
 from kiosk.graphql_api.graphql_types import (
     CreatePayload,
-    LoginResult,
     KioskInput,
+    LoginResult,
     Suchparameter,
 )
-from kiosk.repository import Pageable, KioskRepository
+from kiosk.repository import KioskRepository, Pageable
 from kiosk.router.kiosk_model import KioskModel
 from kiosk.security import Role, TokenService, UserService
 from kiosk.service import (
-    NotFoundError,
     KioskDTO,
     KioskService,
     KioskWriteService,
+    NotFoundError,
 )
 
 __all__ = ["graphql_router"]

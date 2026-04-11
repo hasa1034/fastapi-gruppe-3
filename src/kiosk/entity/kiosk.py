@@ -15,16 +15,15 @@
 
 """Entity-Klasse für Kioskdaten."""
 
-from dataclasses import InitVar
-from datetime import date, datetime
+from datetime import datetime
 from typing import Any, Self
 
 from loguru import logger
 from sqlalchemy import Identity, func
 from sqlalchemy.orm import Mapped, mapped_column, reconstructor, relationship
 
-from kiosk.entity.betreiber import Betreiber
 from kiosk.entity.base import Base
+from kiosk.entity.betreiber import Betreiber
 from kiosk.entity.produkt import Produkt
 
 # https://docs.python.org/3/library/dataclasses.html

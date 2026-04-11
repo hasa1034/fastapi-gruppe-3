@@ -17,14 +17,13 @@
 """Unit-Tests für find_by_id() von KioskService."""
 
 from dataclasses import asdict
-from datetime import date
 from typing import TYPE_CHECKING
 
 from pytest import fixture, mark, raises
 
 from kiosk.entity import Betreiber, Geschlecht, Kiosk
 from kiosk.security import Role, User
-from kiosk.service import ForbiddenError, NotFoundError, KioskDTO, KioskService
+from kiosk.service import ForbiddenError, KioskDTO, KioskService, NotFoundError
 
 if TYPE_CHECKING:
     from pytest_mock import MockerFixture
