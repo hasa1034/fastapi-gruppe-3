@@ -17,12 +17,11 @@
 """Unit-Tests für find_by_id() von KioskService."""
 
 from copy import deepcopy
-from datetime import date
 from typing import TYPE_CHECKING
 
 from pytest import fixture, mark, raises
 
-from kiosk.entity import Betreiber, Kiosk, Geschlecht
+from kiosk.entity import Betreiber, Geschlecht, Kiosk
 from kiosk.service import EmailExistsError, UsernameExistsError
 
 if TYPE_CHECKING:
@@ -45,9 +44,7 @@ def session_mock(mocker: MockerFixture):
 
 @mark.unit
 @mark.unit_create
-def test_create(
-    kiosk_write_service, session_mock, keycloak_admin_mock, mocker
-) -> None:
+def test_create(kiosk_write_service, session_mock, keycloak_admin_mock, mocker) -> None:
     # Arrange
     email = "mock@email.test"
     betreiber = Betreiber(

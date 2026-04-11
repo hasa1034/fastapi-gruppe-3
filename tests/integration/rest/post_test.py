@@ -30,14 +30,8 @@ def test_post() -> None:
         "ist_geoeffnet": True,
         "homepage": "https://kiosk-rest.de",
         "username": "testrest",
-        "betreiber": {
-            "vorname": "Max",
-            "nachname": "Mustermann",
-            "geschlecht": "M"
-        },
-        "produkte": [
-            {"name": "Limonade", "preis": "2.50", "waehrung": "EUR"}
-        ]
+        "betreiber": {"vorname": "Max", "nachname": "Mustermann", "geschlecht": "M"},
+        "produkte": [{"name": "Limonade", "preis": "2.50", "waehrung": "EUR"}],
     }
     headers: dict[str, str] = {"Content-Type": "application/json"}
 
@@ -72,8 +66,8 @@ def test_post_invalid() -> None:
         "betreiber": {
             "vorname": "",  # Validierungsfehler: darf nicht leer sein
             "nachname": "M",
-            "geschlecht": "X"  # Ungültiges Geschlecht
-        }
+            "geschlecht": "X",  # Ungültiges Geschlecht
+        },
     }
     headers: dict[str, str] = {"Content-Type": "application/json"}
 
@@ -105,11 +99,7 @@ def test_post_email_exists() -> None:
         "email": email_exists,
         "ist_geoeffnet": True,
         "username": "emailexists",
-        "betreiber": {
-            "vorname": "John",
-            "nachname": "Doe",
-            "geschlecht": "M"
-        }
+        "betreiber": {"vorname": "John", "nachname": "Doe", "geschlecht": "M"},
     }
     headers: dict[str, str] = {"Content-Type": "application/json"}
 

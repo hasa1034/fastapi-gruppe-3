@@ -28,8 +28,8 @@ from kiosk.service.exceptions import (
     UsernameExistsError,
     VersionOutdatedError,
 )
-from kiosk.service.mailer import send_mail
 from kiosk.service.kiosk_dto import KioskDTO
+from kiosk.service.mailer import send_mail
 
 __all__ = ["KioskWriteService"]
 
