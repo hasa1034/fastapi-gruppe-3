@@ -12,10 +12,10 @@ from kiosk.graphql_api.schema import Mutation, Query, graphql_router
 __all__ = [
     "BetreiberInput",
     "CreatePayload",
-    "Mutation",
     "KioskInput",
-    "Query",
+    "Mutation",
     "ProduktInput",
+    "Query",
     "Suchparameter",
     "graphql_router",
 ]

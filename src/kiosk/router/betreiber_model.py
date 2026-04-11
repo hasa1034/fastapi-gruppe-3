@@ -27,13 +27,13 @@ __all__: list[str] = ["BetreiberModel"]
 class BetreiberModel(BaseModel):
     """Pydantic-Model für die Betreiber."""
 
-    vorname: str = Field(..., min_length=2)
+    vorname: Annotated[str, StringConstraints(min_length=2)]
     """Der Vorname."""
 
-    nachname: str = Field(..., min_length=2)
+    nachname: Annotated[str, StringConstraints(min_length=2)]
     """Der Nachname."""
 
-    geschlecht: Optional[Geschlecht] = None
+    geschlecht: Annotated[Geschlecht, StringConstraints(min_length=1)]
     """Das Geschlecht als Enum."""
 
     model_config = ConfigDict(

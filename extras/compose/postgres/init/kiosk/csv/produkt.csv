@@ -1,4 +1,4 @@
-id;name;betrag;waehrung;kiosk_id
+id;name;preis;waehrung;kiosk_id
 1;Zigaretten;1;EUR;1
 20;Kaugummi;20;EUR;20
 30;Schokolade;30;USD;30

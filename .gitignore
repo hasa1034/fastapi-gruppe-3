@@ -33,10 +33,13 @@ src/kiosk/config/resources/tls/certificate.crt
 src/kiosk/config/resources/tls/key.pem
 src/kiosk/config/resources/postgresql/server.crt
 src/kiosk/config/resources/app.toml
+src/kiosk/config/resources/postgresql/app.toml
 tests/integration/certificate.crt
 extras/compose/kiosk
 extras/compose/postgres/init/tls
 extras/compose/postgres/tls
 extras/compose/postgres/password.txt
 extras/compose/keycloak/tls
-
+extras/compose/compose/prometheus-grafana
+extras/compose/prometheus-grafana/grafana.db
+extras/compose/prometheus-grafana/prometheus-data/

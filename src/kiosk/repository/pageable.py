@@ -1,4 +1,3 @@
-
 """Parameter für Pagination."""
 
 from dataclasses import dataclass

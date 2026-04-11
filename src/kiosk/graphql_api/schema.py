@@ -30,18 +30,18 @@ from strawberry.types import Info
 from kiosk.config.graphql import graphql_ide
 from kiosk.graphql_api.graphql_types import (
     CreatePayload,
-    LoginResult,
     KioskInput,
+    LoginResult,
     Suchparameter,
 )
-from kiosk.repository import Pageable, KioskRepository
+from kiosk.repository import KioskRepository, Pageable
 from kiosk.router.kiosk_model import KioskModel
 from kiosk.security import Role, TokenService, UserService
 from kiosk.service import (
-    NotFoundError,
     KioskDTO,
     KioskService,
     KioskWriteService,
+    NotFoundError,
 )
 
 __all__ = ["graphql_router"]
@@ -101,9 +101,7 @@ class Query:
         return kiosk_dto
 
     @strawberry.field
-    def kioske(
-        self, suchparameter: Suchparameter, info: Info
-    ) -> Sequence[KioskDTO]:
+    def kioske(self, suchparameter: Suchparameter, info: Info) -> Sequence[KioskDTO]:
         """Kioske anhand von Suchparameter suchen.
 
         :param suchparameter: name, email usw.
@@ -161,9 +159,7 @@ class Mutation:
         kiosk_dict = kiosk_input.__dict__
         kiosk_dict["betreiber"] = kiosk_input.betreiber.__dict__
         # List Comprehension ab Python 2.0 (2000) https://peps.python.org/pep-0202
-        kiosk_dict["produkte"] = [
-            produkt.__dict__ for produkt in kiosk_input.produkte
-        ]
+        kiosk_dict["produkte"] = [produkt.__dict__ for produkt in kiosk_input.produkte]
 
         # Dictonary mit Pydantic validieren
         kiosk_model: Final = KioskModel.model_validate(kiosk_dict)

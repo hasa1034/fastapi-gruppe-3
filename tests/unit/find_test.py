@@ -73,9 +73,7 @@ def test_find_by_name(kiosk_service, session_mock) -> None:
     session_mock.scalars.return_value.all.return_value = [kiosk_mock]
 
     # Act
-    kiosks_slice = kiosk_service.find(
-        suchparameter=suchparameter, pageable=pageable
-    )
+    kiosks_slice = kiosk_service.find(suchparameter=suchparameter, pageable=pageable)
 
     # Assert
     assert len(kiosks_slice.content) == 1
@@ -134,9 +132,7 @@ def test_find_by_email(kiosk_service, session_mock) -> None:
     session_mock.scalar.return_value = kiosk_mock
 
     # Act
-    kiosks_slice = kiosk_service.find(
-        suchparameter=suchparameter, pageable=pageable
-    )
+    kiosks_slice = kiosk_service.find(suchparameter=suchparameter, pageable=pageable)
 
     # Assert
     assert len(kiosks_slice.content) == 1
@@ -149,9 +145,7 @@ def test_find_by_email(kiosk_service, session_mock) -> None:
     session_mock.scalar.return_value = kiosk_mock
 
     # Act
-    kioske_slice = kiosk_service.find(
-        suchparameter=suchparameter, pageable=pageable
-    )
+    kioske_slice = kiosk_service.find(suchparameter=suchparameter, pageable=pageable)
 
     # Assert
     assert len(kioske_slice.content) == 1

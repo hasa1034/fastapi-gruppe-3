@@ -60,6 +60,7 @@ CREATE INDEX IF NOT EXISTS betreiber_nachname_idx ON betreiber(nachname);
 
 CREATE TABLE IF NOT EXISTS produkt (
     id          INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY,
+    name        TEXT NOT NULL,
                 -- https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL
                 -- https://www.postgresql.org/docs/current/datatype-money.html
                 -- 10 Stellen, davon 2 Nachkommastellen

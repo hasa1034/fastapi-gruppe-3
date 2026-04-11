@@ -116,8 +116,7 @@ class UserService:
             payload={
                 "username": user.username,
                 "email": user.email,
-                "firstName": user.vorname,
-                "lastName": user.nachname,
+                "attributes": {"name": [user.name]},
                 "credentials": [{"value": user.password, "type": "password"}],
                 "enabled": True,
             },
@@ -169,10 +168,22 @@ class UserService:
         logger.debug("kc_client_roles={}", kc_client_roles)
 
         roles: Final = [Role[role["name"].upper()] for role in kc_client_roles]
+        attributes: Final[Any] = kc_user.get("attributes") or {}
+        name_attribute: Final[Any] = attributes.get("name") if isinstance(
+            attributes, dict
+        ) else None
         user: Final = User(
             username=kc_user["username"],
             email=kc_user["email"],
-            name=kc_user["name"],
+            name=cast(
+                "str",
+                (
+                    name_attribute[0]
+                    if isinstance(name_attribute, list) and len(name_attribute) > 0
+                    else kc_user.get("name")
+                )
+                or "",
+            ),
             roles=roles,
         )
         logger.debug("user={}", user)

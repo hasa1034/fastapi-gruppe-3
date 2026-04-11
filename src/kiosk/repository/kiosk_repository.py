@@ -1,4 +1,3 @@
-
 """Repository fuer persistente Kioskdaten."""
 
 # "list" ist eine mutable "Sequence"
@@ -70,12 +69,13 @@ class KioskRepository:
     def _find_all(self, pageable: Pageable, session: Session) -> Slice[Kiosk]:
         logger.debug("aufgerufen")
         offset: int = pageable.number * pageable.size
-        statement: Final = ((
-            select(Kiosk)
-            .options(joinedload(Kiosk.betreiber))
-            .limit(pageable.size)
-            .offset(offset)
-        )
+        statement: Final = (
+            (
+                select(Kiosk)
+                .options(joinedload(Kiosk.betreiber))
+                .limit(pageable.size)
+                .offset(offset)
+            )
             if pageable.size != 0
             else (select(Kiosk).options(joinedload(Kiosk.betreiber)))
         )
@@ -210,9 +210,7 @@ class KioskRepository:
         """
         logger.debug("{}", kiosk)
 
-        if (
-            kiosk_db := self.find_by_id(kiosk_id=kiosk.id, session=session)
-        ) is None:
+        if (kiosk_db := self.find_by_id(kiosk_id=kiosk.id, session=session)) is None:
             # Kioskdaten wurden i.a. zuvor in der Session aktualisiert
             return None
 
@@ -248,9 +246,7 @@ class KioskRepository:
         logger.debug("teil={}", teil)
 
         statement: Final = (
-            select(Kiosk.name)
-            .filter(Kiosk.name.ilike(f"%{teil}%"))
-            .distinct()
+            select(Kiosk.name).filter(Kiosk.name.ilike(f"%{teil}%")).distinct()
         )
         namen: Final = (session.scalars(statement)).all()
 
