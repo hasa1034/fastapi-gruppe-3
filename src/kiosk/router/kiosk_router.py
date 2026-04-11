@@ -149,9 +149,7 @@ def _kiosk_slice_to_page(
     kiosk_slice: Slice[KioskDTO],
     pageable: Pageable,
 ) -> dict[str, Any]:
-    kiosk_dict: Final = tuple(
-        _kiosk_to_dict(kiosk) for kiosk in kiosk_slice.content
-    )
+    kiosk_dict: Final = tuple(_kiosk_to_dict(kiosk) for kiosk in kiosk_slice.content)
     page: Final = Page.create(
         content=kiosk_dict,
         pageable=pageable,

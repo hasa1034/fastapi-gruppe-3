@@ -115,9 +115,7 @@ class KioskService:
 
             # tuple mit einem "Generator"-Ausdruck
             # vgl. List Comprehension ab Python 2.0 (2000) https://peps.python.org/pep-0202
-            kioske_dto: Final = tuple(
-                KioskDTO(kiosk) for kiosk in kiosk_slice.content
-            )
+            kioske_dto: Final = tuple(KioskDTO(kiosk) for kiosk in kiosk_slice.content)
             session.commit()
 
         if excel_enabled:

@@ -112,9 +112,7 @@ class KioskWriteService:
 
         with Session() as session:
             if (
-                kiosk_db := self.repo.find_by_id(
-                    kiosk_id=kiosk_id, session=session
-                )
+                kiosk_db := self.repo.find_by_id(kiosk_id=kiosk_id, session=session)
             ) is None:
                 raise NotFoundError(kiosk_id)
             if kiosk_db.version > version:

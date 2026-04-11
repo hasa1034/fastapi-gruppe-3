@@ -46,9 +46,7 @@ class KioskModel(KioskUpdateModel):
         kiosk.betreiber = self.betreiber.to_betreiber()
 
         # 5. Produkte konvertieren und verknüpfen
-        kiosk.produkte = [
-            p.to_produkt() for p in self.produkte
-        ]
+        kiosk.produkte = [p.to_produkt() for p in self.produkte]
 
         logger.debug("Erzeugte Kiosk-Entity: {}", kiosk)
         return kiosk
