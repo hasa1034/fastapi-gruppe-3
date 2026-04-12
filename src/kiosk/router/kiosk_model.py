@@ -7,8 +7,8 @@ from pydantic import StringConstraints
 
 from kiosk.entity import Kiosk
 from kiosk.router.betreiber_model import BetreiberModel
-from kiosk.router.produkt_model import ProduktModel
 from kiosk.router.kiosk_update_model import KioskUpdateModel
+from kiosk.router.produkt_model import ProduktModel
 
 __all__: list[str] = ["KioskModel"]
 

@@ -17,7 +17,7 @@
 
 from typing import Annotated
 
-from pydantic import BaseModel, Field, ConfigDict, StringConstraints
+from pydantic import BaseModel, ConfigDict, StringConstraints
 
 from kiosk.entity import Betreiber, Geschlecht
 
