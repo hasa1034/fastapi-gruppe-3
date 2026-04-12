@@ -17,6 +17,7 @@
 
 from collections.abc import Mapping, Sequence
 from datetime import datetime
+from pathlib import Path
 from typing import Final
 
 from loguru import logger
@@ -34,6 +35,8 @@ from kiosk.service.exceptions import ForbiddenError, NotFoundError
 from kiosk.service.kiosk_dto import KioskDTO
 
 __all__ = ["KioskService"]
+
+_EXCEL_EXPORT_DIR: Final = Path("excel_exports")
 
 
 class KioskService:
@@ -163,4 +166,5 @@ class KioskService:
             ))
 
         timestamp: Final = datetime.now().strftime("%Y-%m-%d_%H%M%S")
-        workbook.save(f"kioske-{timestamp}.xlsx")
+        _EXCEL_EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+        workbook.save(_EXCEL_EXPORT_DIR / f"kioske-{timestamp}.xlsx")
