@@ -169,9 +169,9 @@ class UserService:
 
         roles: Final = [Role[role["name"].upper()] for role in kc_client_roles]
         attributes: Final[Any] = kc_user.get("attributes") or {}
-        name_attribute: Final[Any] = attributes.get("name") if isinstance(
-            attributes, dict
-        ) else None
+        name_attribute: Final[Any] = (
+            attributes.get("name") if isinstance(attributes, dict) else None
+        )
         user: Final = User(
             username=kc_user["username"],
             email=kc_user["email"],
