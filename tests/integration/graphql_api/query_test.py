@@ -30,7 +30,7 @@ def test_query_id() -> None:
     query: Final = {
         "query": """
             {
-                kiosk(kioskId: "1000") {
+                kiosk(kioskId: "20") {
                     version
                     name
                     email
@@ -41,11 +41,6 @@ def test_query_id() -> None:
                         vorname
                         nachname
                         geschlecht
-                    }
-                    produkte {
-                        name
-                        preis
-                        waehrung
                     }
                 }
             }
@@ -145,12 +140,9 @@ def test_query_name() -> None:
     query: Final = {
         "query": """
             {
-                kioske(suchparameter: {name: "Kiosk"}) {
+                kioske(suchparameter: {name: "Alice"}) {
                     id
                     name
-                    produkte {
-                        name
-                    }
                 }
             }
         """,

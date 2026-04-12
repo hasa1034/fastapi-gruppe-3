@@ -24,7 +24,7 @@ HOMEPAGE_UPDATE: Final = "https://www.kiosk-neu.de"
 @mark.put_request
 def test_put() -> None:
     # arrange
-    kiosk_id: Final = 1000
+    kiosk_id: Final = 20
     if_match: Final = '"0"'
     geaenderter_kiosk: Final = {
         "name": "Kioskput",
@@ -120,7 +120,7 @@ def test_put_nicht_vorhanden() -> None:
 @mark.put_request
 def test_put_email_exists() -> None:
     # arrange
-    kiosk_id: Final = 1000
+    kiosk_id: Final = 20
     if_match: Final = '"1"'
     email_exists: Final = "admin@acme.com"
     geaenderter_kiosk: Final = {
@@ -182,7 +182,7 @@ def test_put_ohne_versionsnr() -> None:
 @mark.put_request
 def test_put_alte_versionsnr() -> None:
     # arrange
-    kiosk_id: Final = 1000
+    kiosk_id: Final = 20
     if_match: Final = '"-1"'
     geaenderter_kiosk: Final = {
         "name": "Kioskput",

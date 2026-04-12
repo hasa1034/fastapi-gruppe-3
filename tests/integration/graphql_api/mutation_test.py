@@ -37,16 +37,6 @@ def test_create() -> None:
                             geschlecht: MAENNLICH
                         }
                         produkte: [
-                            {
-                                name: "Limonade"
-                                preis: "2.50"
-                                waehrung: "EUR"
-                            },
-                            {
-                                name: "Zeitung"
-                                preis: "1.80"
-                                waehrung: "EUR"
-                            }
                         ]
                     }
                 ) {

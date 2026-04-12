@@ -19,7 +19,7 @@ from pytest import mark
 
 @mark.rest
 @mark.get_request
-@mark.parametrize("email", ["admin@acme.com", "info@kiosk.de"])
+@mark.parametrize("email", ["admin@acme.com", "alice@acme.de"])
 def test_get_by_email(email: str) -> None:
     # arrange
     params = {"email": email}
@@ -61,7 +61,7 @@ def test_get_by_email_not_found(email: str) -> None:
 
 @mark.rest
 @mark.get_request
-@mark.parametrize("teil", ["Kiosk", "Markt"])
+@mark.parametrize("teil", ["Alice", "Admin"])
 def test_get_by_name(teil: str) -> None:
     # arrange
     params: dict[str, str] = {"name": teil}
